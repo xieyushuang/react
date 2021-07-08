@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>类的基本知识</title>
+</head>
+<body>
+
+<script type="text/javascript">
+	let arr1 = [1,2]
+	let arr2 = [3,4]
+	console.log([...arr1])
+	let arr3 = [...arr1,...arr2]
+
+	function sum(...numbers){
+		return numbers.reduce((pre, next) => {
+			return pre + next
+		})
+	}
+
+	console.log(sum(1,2,3))
+
+	let person = {name: '小双', age: 18}
+	let newPerson = {...person, name: '小明'}
+	console.log(newPerson)
+	newPerson.name = '幺幺'
+	console.log(person)
+	console.log(newPerson)
+</script>
+</body>
+</html>
+

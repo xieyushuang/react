@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>getSnapshotBeforeUpdate使用场景</title>
+	<style type="text/css" media="screen">
+		.box {
+			height: 300px;
+			overflow: auto;
+			width: 400px;
+			background: yellow;
+		}
+		.new {
+			height: 50px;
+		}
+	</style>
+</head>
+<body>
+	<div id="test"></div>
+
+
+<!-- 引入react核心库 -->
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<!-- 引入react-dom,用于支持react操作DOM -->
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<!-- 引入babel,用于将jsx转换为js -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+	// 1.创建类组件
+	class News extends React.Component{
+		state = {
+			newsArr: []
+		}
+
+    // 组件挂载完毕
+		componentDidMount() {
+			console.log('count--------componentDidMount')
+			const timer = setInterval(()=>{
+				const {newsArr} = this.state
+				const news = '新闻' + (newsArr.length+1)
+				this.setState({newsArr: [news,...newsArr]})
+
+				if(newsArr.length >= 10) {
+					clearInterval(timer)
+				}
+			}, 1000)
+		}
+		
+		getSnapshotBeforeUpdate(prevProps, prevState) {
+			console.log('count--------getSnapshotBeforeUpdate', 'prevProps:', prevProps, 'prevState:', prevState)
+			return this.refs.box.scrollHeight
+		}
+
+		// 组件更新完毕
+		componentDidUpdate(prevProps, prevState, snapshot) {
+			console.log('count--------componentDidUpdate','prevProps:', prevProps, 'prevState:', prevState, 'snapshot:', snapshot)
+			this.refs.box.scrollTop += this.refs.box.scrollHeight - snapshot
+		}
+
+		// 初始化渲染为、状态更新之后
+		render() {
+			console.log('count--------render')
+			return (
+				<ul className="box" ref="box">
+					{
+						this.state.newsArr.map((item,index)=>{
+							return (<li key={index} className='new'>{item}</li>)
+						})
+					}
+					
+				</ul>
+			)
+		}
+	}
+
+	// 2.渲染组件到页面
+	ReactDOM.render(<News count={109}/>, document.getElementById('test'))		
+</script>
+</body>
+</html>
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>前端框架js列表</title>
+</head>
+<body>
+	<div id="test"></div>
+
+
+	<!-- 引入react核心库 -->
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<!-- 引入react-dom,用于支持react操作DOM -->
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<!-- 引入babel,用于将jsx转换为js -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+	const datas = ['明明子','小双儿']
+	// 1.创建虚拟DOM
+	const VDOM = (
+		<div>
+			<h1 id="title">前端框架js列表</h1>
+			<ul>
+				{
+					datas.map(item=>{
+						return <li key={item}>{item}</li>
+					})
+				}
+			</ul>
+		</div>
+	)
+	// 2.渲染虚拟DOM到页面
+	ReactDOM.render(VDOM, document.getElementById('test'))		
+	 
+</script>
+</body>
+</html>
+
